@@ -1,4 +1,31 @@
 ------------------------------------------------------------
+TAG
+Tag name: fitsGenApps-00-00-01, operation: add
+Package: fitsGenApps
+User: jchiang  Tue Jul 20 22:48:16 2010
+Files:
+  fitsGenApps/.cvsignore  1.1.1.1
+  fitsGenApps/ChangeLog  1.6
+  fitsGenApps/SConscript  1.2
+  fitsGenApps/fitsGenAppsLib.py  1.1.1.1
+  fitsGenApps/cmt/requirements  1.3
+  fitsGenApps/doc/release.notes  1.2
+  fitsGenApps/pfiles/makeFT1_kluge.par  1.1.1.1
+  fitsGenApps/pfiles/makeFT1.par  1.1.1.1
+  fitsGenApps/pfiles/makeFT2.par  1.1.1.1
+  fitsGenApps/src/convertFT1/convertFT1.cxx  1.1.1.1
+  fitsGenApps/src/egret2FT1/EgretSmdb.h  1.1.1.1
+  fitsGenApps/src/egret2FT1/EgretSmdb.cxx  1.1.1.1
+  fitsGenApps/src/egret2FT1/egret2FT1.cxx  1.1.1.1
+  fitsGenApps/src/irfTuple/irfTuple.cxx  1.1.1.1
+  fitsGenApps/src/makeFT1/makeFT1.cxx  1.1.1.1
+  fitsGenApps/src/makeFT1_kluge/makeFT1_kluge.cxx  1.2
+  fitsGenApps/src/makeFT2/makeFT2.cxx  1.1.1.1
+  fitsGenApps/src/makeFT2a/makeFT2a.cxx  1.1.1.1
+  fitsGenApps/src/partition/partition.cxx  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 20 22:48:05 PDT 2010
 fitsGenApps/doc
 
