@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-00-01 20-Jul-2010 jchiang disable linking against non-existent library for package; update makeFT1_kluge to use new MeritFile interface
  fitsGen-00-00-00 20-Jul-2010 jchiang Separate applications from fitsGen
     @endverbatim
 */
