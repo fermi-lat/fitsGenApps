@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jul 20 22:41:38 PDT 2010
+fitsGenApps/src/makeFT1_kluge
+
+Modified Files:
+	makeFT1_kluge.cxx 
+Log Message:
+remove references to MeritFile::gti()
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jul 20 22:41:38 PDT 2010
 fitsGenApps/cmt
 
 Modified Files:
