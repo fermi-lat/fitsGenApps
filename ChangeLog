@@ -1,0 +1,34 @@
+------------------------------------------------------------
+User: jchiang  Tue Jul 20 21:35:06 PDT 2010
+fitsGenApps
+
+Log Message:
+initial import of separate package of applications from fitsGen
+
+Status:
+
+Vendor Tag:	JC
+Release Tags:	v0
+		
+N fitsGenApps/SConscript
+N fitsGenApps/fitsGenAppsLib.py
+N fitsGenApps/.cvsignore
+N fitsGenApps/cmt/requirements
+N fitsGenApps/src/makeFT1/makeFT1.cxx
+N fitsGenApps/src/irfTuple/irfTuple.cxx
+N fitsGenApps/src/convertFT1/convertFT1.cxx
+N fitsGenApps/src/makeFT2a/makeFT2a.cxx
+N fitsGenApps/src/partition/partition.cxx
+N fitsGenApps/src/egret2FT1/EgretSmdb.h
+N fitsGenApps/src/egret2FT1/EgretSmdb.cxx
+N fitsGenApps/src/egret2FT1/egret2FT1.cxx
+N fitsGenApps/src/makeFT1_kluge/makeFT1_kluge.cxx
+N fitsGenApps/src/makeFT2/makeFT2.cxx
+N fitsGenApps/pfiles/makeFT2.par
+N fitsGenApps/pfiles/makeFT1.par
+N fitsGenApps/pfiles/makeFT1_kluge.par
+N fitsGenApps/doc/release.notes
+
+No conflicts created by this import
+
+    *
