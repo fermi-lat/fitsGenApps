@@ -1,0 +1,11 @@
+/** @file release.notes
+    @brief package fitsGenApps
+    @brief Package coordinators: J. Chiang <jchiang@slac.stanford.edu>
+    $Id$
+
+    @verbatim
+    EOH
+
+ fitsGen-00-00-00 20-Jul-2010 jchiang Separate applications from fitsGen
+    @endverbatim
+*/
