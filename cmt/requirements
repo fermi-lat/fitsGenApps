@@ -18,7 +18,6 @@ use embed_python v*
 use evtUtils v*
 
 apply_pattern package_include
-apply_pattern package_linkopts
 apply_pattern package_stamps
 
 macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
