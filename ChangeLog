@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 20 22:41:38 PDT 2010
+fitsGenApps/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+remove references to MeritFile::gti()
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 20 21:35:06 PDT 2010
 fitsGenApps
 
