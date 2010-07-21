@@ -218,13 +218,14 @@ void MakeFt1::run() {
    fitsGen::Ft1File ft1(fitsFile, 0);
    try {
       fitsGen::MeritFile merit(rootFile, "MeritTuple", filter);
-      if (tstart != 0 || tstop != 0) {
-         merit.setStartStop(tstart, tstop);
-         ft1.setObsTimes(tstart, tstop);
-      } else {
-         const dataSubselector::Gti & gti = merit.gti();
-         ft1.setObsTimes(gti.minValue(), gti.maxValue());
+      if (tstart == 0 && tstop == 0) {
+// Use default values from merit file
+         tstart = merit.tstart();
+         tstop = merit.tstop();
       }
+      ft1.setObsTimes(tstart, tstop);
+      dataSubselector::Gti gti;
+      gti.insertInterval(tstart, tstop);
 
       ::addNeededFields(ft1, ft1Dict);
    
@@ -237,7 +238,7 @@ void MakeFt1::run() {
    
       int ncount(0);
       for ( ; merit.itor() != merit.end(); merit.next(), ft1.next()) {
-         if (merit.gti().accept(merit["EvtElapsedTime"])) {
+         if (gti.accept(merit["EvtElapsedTime"])) {
             for (::Ft1Map_t::const_iterator variable = ft1Dict.begin();
                  variable != ft1Dict.end(); ++variable) {
                ft1[variable->first].set(merit[variable->second.meritName()]);
@@ -256,7 +257,7 @@ void MakeFt1::run() {
       formatter.info() << "number of rows processed: " << ncount << std::endl;
       
       ft1.setNumRows(ncount);
-      my_cuts.addGtiCut(merit.gti());
+      my_cuts.addGtiCut(gti);
       my_cuts.writeDssKeywords(ft1.header());
    } catch (tip::TipException & eObj) {
 // If there are no events in the merit file passing the cut,
