@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jul 30 12:14:27 PDT 2010
+fitsGenApps/pfiles
+
+Modified Files:
+	makeFT1.par 
+Log Message:
+make event_classifier hidden parameter
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jul 30 10:42:13 PDT 2010
 fitsGenApps/src/makeFT1
 
