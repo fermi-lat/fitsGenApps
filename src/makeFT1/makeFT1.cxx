@@ -170,7 +170,7 @@ private:
    static std::string s_cvs_id;
 
    EventClassifier * m_classifier;
-   void setClassifier();
+   void setClassifier(const std::string & filter);
    unsigned int eventClass(tip::ConstTableRecord & row) const;
 };
 
@@ -192,8 +192,6 @@ void MakeFt1::run() {
    std::string tempRootFile = m_pars["tempRootFile"];
    std::string fitsFile = m_pars["fitsFile"];
    std::string defaultFilter = m_pars["TCuts"];
-   setClassifier();
-
    double tstart = m_pars["tstart"];
    double tstop = m_pars["tstop"];
 
@@ -230,6 +228,8 @@ void MakeFt1::run() {
    try {
       tip::IFileSvc::instance().setTmpFileName(tempRootFile);
       fitsGen::MeritFile merit(rootFile, "MeritTuple", filter);
+      setClassifier(filter);
+
       if (tstart == 0 && tstop == 0) {
 // Use default values from merit file
          tstart = merit.tstart();
@@ -253,7 +253,8 @@ void MakeFt1::run() {
                  variable != ft1Dict.end(); ++variable) {
                ft1[variable->first].set(merit[variable->second.meritName()]);
             }
-            ft1["event_class"].set(eventClass(merit.row()));
+            int my_evtclass = eventClass(merit.row());
+               ft1["event_class"].set(my_evtclass);
             ft1["conversion_type"].set(merit.conversionType());
             ncount++;
          }
@@ -300,11 +301,13 @@ void MakeFt1::run() {
    }
 }
 
-void MakeFt1::setClassifier() {
+void MakeFt1::setClassifier(const std::string & filter) {
    std::string xmlClassifier = m_pars["xml_classifier"];
    if (xmlClassifier != "none") {
       std::string meritFile = m_pars["rootFile"];
-      m_classifier = new XmlEventClassifier(xmlClassifier, meritFile);
+      std::string evtClassMap = m_pars["evtclsmap"];
+      m_classifier = new XmlEventClassifier(xmlClassifier, meritFile, filter,
+                                            evtClassMap);
    } else {
       std::string eventClassifier = m_pars["event_classifier"];
       m_classifier = new EventClassifier(eventClassifier);
