@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jul 30 10:42:13 PDT 2010
+fitsGenApps/pfiles
+
+Modified Files:
+	makeFT1.par 
+Log Message:
+read event class map from par file; apply filter to data read in by XmlClassifier; bug-fix for setting EVENT_CLASS using an unsigned int
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-00-01, operation: add
 Package: fitsGenApps
