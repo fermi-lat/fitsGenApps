@@ -4,7 +4,7 @@
 rootFile,fr,a,"",,,merit filename
 tempRootFile,s,h,"dummy.root",,,Temporary ROOT file
 fitsFile,f,a,"",,,FT1 filename
-event_classifier,s,a,,,,Event classifier module
+event_classifier,s,h,,,,Event classifier module
 xml_classifier,s,a,none,,,XML event class definition file
 tstart,r,h,0,,,"start time (MET s)"
 tstop,r,h,0,,,"stop time (MET s)"
