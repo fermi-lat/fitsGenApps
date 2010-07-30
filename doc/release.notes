@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-01-00 30-Jul-2010 jchiang event_classifier is now hidden parameter; read event class map from par file for selecting xml def; apply filter to data read in by XmlClassifier to speed up implementation; bug-fix for setting EVENT_CLASS using 0 as an unsigned int
  fitsGenApps-00-00-01 20-Jul-2010 jchiang disable linking against non-existent library for package; update makeFT1_kluge to use new MeritFile interface
  fitsGen-00-00-00 20-Jul-2010 jchiang Separate applications from fitsGen
     @endverbatim
