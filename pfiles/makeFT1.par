@@ -11,6 +11,7 @@ tstop,r,h,0,,,"stop time (MET s)"
 TCuts,s,a,,,,TCut to apply
 dict_file,fr,a,,,,merit-to-FT1 dictionary file
 file_version,s,h,1,,,Version of FT1 file
+evtclsmap,s,h,"FT1EventClass",,,"Event class definition block to use from xml file"
 
 chatter,i,h,2,0,4,Output verbosity
 clobber,        b, h, yes, , , "Overwrite existing output files"
