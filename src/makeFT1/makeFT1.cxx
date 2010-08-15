@@ -30,6 +30,9 @@
 
 #include "facilities/commonUtilities.h"
 
+#include "tip/IFileSvc.h"
+#include "tip/Extension.h"
+
 #include "st_stream/StreamFormatter.h"
 
 #include "st_app/AppParGroup.h"
@@ -292,6 +295,8 @@ void MakeFt1::run() {
    ft1.setPhduKeyword("VERSION", version);
    std::string filename(facilities::Util::basename(fitsFile));
    ft1.setPhduKeyword("FILENAME", filename);
+   unsigned int proc_ver = m_pars["proc_ver"];
+   ft1.setPhduKeyword("PROC_VER", proc_ver);
    
    my_cuts.writeGtiExtension(fitsFile);
    st_facilities::FitsUtil::writeChecksums(fitsFile);
