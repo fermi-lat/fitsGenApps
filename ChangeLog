@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Aug 29 13:49:34 PDT 2010
+fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+add users access to temporary root file used for reading in filtered merit data and assigning xml-based classifications
+    *
+------------------------------------------------------------
+User: jchiang  Sun Aug 29 13:49:34 PDT 2010
 fitsGenApps/pfiles
 
 Modified Files:
