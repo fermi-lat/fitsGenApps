@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-02-00 04-Oct-2010 jchiang get rid of tempfile option for makeFT1
  fitsGenApps-00-01-02 29-Aug-2010 jchiang add user access to temp file name used to prefilter merit data for assigning xml-based classifications
  fitsGenApps-00-01-01 15-Aug-2010 jchiang add makeFT1 proc_ver option
  fitsGenApps-00-01-00 30-Jul-2010 jchiang event_classifier is now hidden parameter; read event class map from par file for selecting xml def; apply filter to data read in by XmlClassifier to speed up implementation; bug-fix for setting EVENT_CLASS using 0 as an unsigned int
