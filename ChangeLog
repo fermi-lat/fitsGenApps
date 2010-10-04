@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Oct  4 16:42:08 PDT 2010
+fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+get rid of tempfile option in makeFT1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Oct  4 16:42:08 PDT 2010
 fitsGenApps/pfiles
 
 Modified Files:
