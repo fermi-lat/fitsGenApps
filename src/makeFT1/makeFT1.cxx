@@ -311,9 +311,8 @@ void MakeFt1::setClassifier(const std::string & filter) {
    if (xmlClassifier != "none") {
       std::string meritFile = m_pars["rootFile"];
       std::string evtClassMap = m_pars["evtclsmap"];
-      std::string tempfile = m_pars["tempfile"];
       m_classifier = new XmlEventClassifier(xmlClassifier, meritFile, filter,
-                                            evtClassMap, tempfile);
+                                            evtClassMap);
    } else {
       std::string eventClassifier = m_pars["event_classifier"];
       m_classifier = new EventClassifier(eventClassifier);
