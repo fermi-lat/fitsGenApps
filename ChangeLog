@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Nov 19 15:38:31 PST 2010
+fitsGenApps/src/add_source_info
+
+Added Files:
+	add_source_info.cxx 
+Log Message:
+add add_source_info application
+    *
+------------------------------------------------------------
+User: jchiang  Fri Nov 19 15:38:31 PST 2010
 fitsGenApps
 
 Modified Files:
