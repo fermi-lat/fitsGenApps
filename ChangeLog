@@ -1,5 +1,32 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-21-00, operation: add
+Package: fitsGenApps
+User: glastrm  Sun Jan 30 13:07:14 2011
+Files:
+  fitsGenApps/.cvsignore  1.1.1.1
+  fitsGenApps/ChangeLog  1.37
+  fitsGenApps/SConscript  1.7
+  fitsGenApps/fitsGenAppsLib.py  1.1.1.1
+  fitsGenApps/cmt/requirements  1.7
+  fitsGenApps/doc/release.notes  1.6
+  fitsGenApps/pfiles/makeFT1_kluge.par  1.1.1.1
+  fitsGenApps/pfiles/makeFT1.par  1.6
+  fitsGenApps/pfiles/makeFT2.par  1.1.1.1
+  fitsGenApps/src/convertFT1/convertFT1.cxx  1.1.1.1
+  fitsGenApps/src/egret2FT1/EgretSmdb.h  1.1.1.1
+  fitsGenApps/src/egret2FT1/EgretSmdb.cxx  1.1.1.1
+  fitsGenApps/src/egret2FT1/egret2FT1.cxx  1.1.1.1
+  fitsGenApps/src/irfTuple/irfTuple.cxx  1.1.1.1
+  fitsGenApps/src/makeFT1/makeFT1.cxx  1.5
+  fitsGenApps/src/makeFT1_kluge/makeFT1_kluge.cxx  1.2
+  fitsGenApps/src/makeFT2/makeFT2.cxx  1.1.1.1
+  fitsGenApps/src/makeFT2a/makeFT2a.cxx  1.1.1.1
+  fitsGenApps/src/partition/partition.cxx  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-20-00, operation: add
 Package: fitsGenApps
 User: glastrm  Wed Dec 15 18:50:49 2010
