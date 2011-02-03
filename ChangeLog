@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb  2 20:12:44 PST 2011
+fitsGenApps
+
+Modified Files:
+	SConscript 
+Log Message:
+add makeLLE application
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb  2 20:12:23 PST 2011
 fitsGenApps/src/makeLLE
 
