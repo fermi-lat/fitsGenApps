@@ -1,0 +1,20 @@
+# @file makeLLE.par
+# $Header$
+#
+rootFile,fr,a,"",,,input merit file(s)
+fitsFile,f,a,"",,,output filename
+t0,r,a,,,,"Trigger time (MET s)"
+ra,r,a,,,,"RA used for PSF-based selection (J2000)"
+dec,r,a,,,,"Dec used for PSF-based selectoin (J2000)"
+dtstart,r,h,-600,,,"start time offset wrt trigger"
+dtstop,r,h,900,,,"stop time offset wrt trigger"
+TCuts,s,a,,,,TCut to apply
+dict_file,fr,a,,,,merit-to-LLE dictionary file
+file_version,s,h,1,,,Version of LLE file
+proc_ver,i,h,1,,,"Processing version"
+
+chatter,i,h,2,0,4,Output verbosity
+clobber,        b, h, yes, , , "Overwrite existing output files"
+debug,          b, h, no, , , "Activate debugging mode"
+gui,            b, h, no, , , "GUI mode activated"
+mode,           s, h, "ql", , , "Mode of automatic parameters"
