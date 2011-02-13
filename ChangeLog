@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Feb 12 21:17:54 PST 2011
+fitsGenApps
+
+Modified Files:
+	SConscript 
+Log Message:
+enable psf cuts
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb  2 20:12:44 PST 2011
 fitsGenApps/src/makeLLE
 
