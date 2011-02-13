@@ -7,6 +7,7 @@
  */
 
 #include <cctype>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 
@@ -208,7 +209,7 @@ void MakeLLE::run() {
 
 // Add zenith angle cut.
    std::ostringstream zenangle_cut;
-   zenangle_cut << " && " << zmax;
+   zenangle_cut << " && FT1ZenithTheta < " << zmax;
    filter += zenangle_cut.str();
 
 // Add time cut.
@@ -219,7 +220,7 @@ void MakeLLE::run() {
    time_cut << std::setprecision(10);
    time_cut << " && (EvtElapsedTime >= " << tmin << ") "
             << " && (EvtElapsedTime <= " << tmax << ")";
-   filter += time_cut.str();
+//   filter += time_cut.str();
 
    st_stream::StreamFormatter formatter("MakeLLE", "run", 2);
    formatter.info() << "applying TCut: " << filter << std::endl;
@@ -252,7 +253,9 @@ void MakeLLE::run() {
       
       int ncount(0);
       for ( ; merit.itor() != merit.end(); merit.next(), lle.next()) {
-         if (gti.accept(merit["EvtElapsedTime"]) && psf_cut(merit.row())) {
+         if (gti.accept(merit["EvtElapsedTime"]) && 
+             merit["EvtEnergyCorr"] > 0 &&
+             psf_cut(merit.row())) {
             for (::LLEMap_t::const_iterator variable = lleDict.begin();
                  variable != lleDict.end(); ++variable) {
                lle[variable->first].set(merit[variable->second.meritName()]);
@@ -295,6 +298,6 @@ void MakeLLE::run() {
    unsigned int proc_ver = m_pars["proc_ver"];
    lle.setPhduKeyword("PROC_VER", proc_ver);
    
-   my_cuts.writeGtiExtension(fitsFile);
-   st_facilities::FitsUtil::writeChecksums(fitsFile);
+   my_cuts.writeGtiExtension(outfile);
+   st_facilities::FitsUtil::writeChecksums(outfile);
 }

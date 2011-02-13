@@ -10,7 +10,7 @@ dec,r,a,,,,"Dec used for PSF-based selectoin (J2000)"
 dtstart,r,h,-600,,,"start time offset wrt trigger"
 dtstop,r,h,900,,,"stop time offset wrt trigger"
 TCuts,s,h,,,,User-specified TCut (overrides standard LLE selection)
-zmax,r,h,105,,,,Maximum zenith angle (degrees)
+zmax,r,h,105,,,Maximum zenith angle (degrees)
 dict_file,fr,a,,,,merit-to-LLE dictionary file
 file_version,s,h,1,,,Version of LLE file
 proc_ver,i,h,1,,,"Processing version"

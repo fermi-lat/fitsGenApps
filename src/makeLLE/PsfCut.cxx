@@ -37,12 +37,19 @@ bool PsfCut::operator()(tip::ConstTableRecord & row) const {
       if (m_ft2->itor() == m_ft2->end()) {
          throw std::runtime_error("Event time not covered by FT2 file");
       }
-      astro::SkyDir zAxis(row["RA_SCZ"].get(), row["DEC_SCZ"].get());
+      astro::SkyDir zAxis(m_ft2->row()["RA_SCZ"].get(), 
+                          m_ft2->row()["DEC_SCZ"].get());
       m_theta = zAxis.difference(m_srcdir)*180./M_PI;
    }
 
-   astro::SkyDir dir(row[m_ra].get(), row[m_dec].get());
-   double theta = dir.difference(m_srcdir)*180./M_PI;
+   // astro::SkyDir dir(row[m_ra].get(), row[m_dec].get());
+   // double theta = dir.difference(m_srcdir)*180./M_PI;
+   
+   double ra = row[m_ra].get();
+   double dec = row[m_dec].get();
+   double theta = 
+      std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
+                + std::pow((dec - m_srcdir.dec()), 2.));
 
    return theta < theta68(row[m_energy].get());
 }
