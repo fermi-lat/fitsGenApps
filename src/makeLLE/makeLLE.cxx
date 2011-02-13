@@ -1,6 +1,6 @@
 /**
  * @file makeLLE.cxx
- * @brief Convert merit ntuple to LLE format.
+ * @brief Filter merit or LLE input and output as LLE format.
  * @author J. Chiang
  *
  * $Header$
@@ -43,6 +43,8 @@
 
 #include "fitsGen/Ft1File.h"
 #include "fitsGen/MeritFile.h"
+
+#include "PsfCut.h"
 
 using namespace fitsGen;
 
@@ -182,9 +184,11 @@ void MakeLLE::banner() const {
 void MakeLLE::run() {
    m_pars.Prompt();
    m_pars.Save();
-   std::string rootFile = m_pars["rootFile"];
-   std::string fitsFile = m_pars["fitsFile"];
-   std::string defaultFilter = m_pars["TCuts"];
+   std::string infile = m_pars["infile"];
+   std::string outfile = m_pars["outfile"];
+   std::string newFilter = m_pars["TCuts"];
+   double zmax = m_pars["zmax"];
+   ::toLower(newFilter);
    double t0 = m_pars["t0"];
    double dtstart = m_pars["dtstart"];
    double dtstop = m_pars["dtstop"];
@@ -194,22 +198,28 @@ void MakeLLE::run() {
 
    std::string dataDir(facilities::commonUtilities::getDataPath("fitsGen"));
 
-   std::string filter;
-   if (!st_facilities::Util::fileExists(defaultFilter)) {
-      filter = defaultFilter;
-   } else {
-      filter = filterString(defaultFilter);
+// Standard filter string for LLE, allowing for non-default option.
+   std::string filter("FswGamState==0 && TkrNumTracks>0 && " 
+                      "(GltGemEngine==6 || GltGemEngine==7) && "
+                      "EvtEnergyCorr>0.");
+   if (newFilter != "none" && newFilter != "") {
+      filter = newFilter;
    }
 
+// Add zenith angle cut.
+   std::ostringstream zenangle_cut;
+   zenangle_cut << " && " << zmax;
+   filter += zenangle_cut.str();
+
+// Add time cut.
    std::ostringstream time_cut;
-// Round lower bound down, upper bound upwards.
+// Round lower bound downwards, upper bound upwards.
    tmin = static_cast<double>(static_cast<long>(tmin));
    tmax = static_cast<double>(static_cast<long>(tmax)) + 1.;
    time_cut << std::setprecision(10);
-      time_cut << " && (EvtElapsedTime >= " << tmin << ") "
-               << " && (EvtElapsedTime <= " << tmax << ")";
-      filter += time_cut.str();
-   }
+   time_cut << " && (EvtElapsedTime >= " << tmin << ") "
+            << " && (EvtElapsedTime <= " << tmax << ")";
+   filter += time_cut.str();
 
    st_stream::StreamFormatter formatter("MakeLLE", "run", 2);
    formatter.info() << "applying TCut: " << filter << std::endl;
@@ -219,25 +229,30 @@ void MakeLLE::run() {
    ::LLEMap_t lleDict;
    ::getLLEDict(dictFile, lleDict);
 
-   dataSubselector::Cuts my_cuts;
-   fitsGen::Ft1File lle(fitsFile, 0, "EVENTS", "lle.tpl");
-   try {
-      fitsGen::MeritFile merit(rootFile, "MeritTuple", filter);
+   std::string ft2file = m_pars["scfile"];
+   double ra = m_pars["ra"];
+   double dec = m_pars["dec"];
+   fitsGenApps::PsfCut psf_cut(ft2file, ra, dec);
 
+   dataSubselector::Cuts my_cuts;
+   fitsGen::Ft1File lle(outfile, 0, "EVENTS", "lle.tpl");
+   try {
+      fitsGen::MeritFile merit(infile, "MeritTuple", filter);
+      
       lle.setObsTimes(tmin, tmax);
       dataSubselector::Gti gti;
       gti.insertInterval(tmin, tmax);
-
+      
       ::addNeededFields(lle, lleDict);
-   
+      
       lle.setNumRows(merit.nrows());
-
-      lle.header().addHistory("Input merit file: " + rootFile);
+      
+      lle.header().addHistory("Input file: " + infile);
       lle.header().addHistory("Filter string: " + filter);
-
+      
       int ncount(0);
       for ( ; merit.itor() != merit.end(); merit.next(), lle.next()) {
-         if (gti.accept(merit["EvtElapsedTime"])) {
+         if (gti.accept(merit["EvtElapsedTime"]) && psf_cut(merit.row())) {
             for (::LLEMap_t::const_iterator variable = lleDict.begin();
                  variable != lleDict.end(); ++variable) {
                lle[variable->first].set(merit[variable->second.meritName()]);
@@ -257,7 +272,7 @@ void MakeLLE::run() {
          formatter.info() << "zero rows passed the TCuts." << std::endl;
          ::addNeededFields(lle, lleDict);
          
-         lle.header().addHistory("Input merit file: " + rootFile);
+         lle.header().addHistory("Input file: " + infile);
          lle.header().addHistory("Filter string: " + filter);
 
          dataSubselector::Gti gti;
@@ -275,7 +290,7 @@ void MakeLLE::run() {
    lle.setPhduKeyword("CREATOR", creator.str());
    std::string version = m_pars["file_version"];
    lle.setPhduKeyword("VERSION", version);
-   std::string filename(facilities::Util::basename(fitsFile));
+   std::string filename(facilities::Util::basename(outfile));
    lle.setPhduKeyword("FILENAME", filename);
    unsigned int proc_ver = m_pars["proc_ver"];
    lle.setPhduKeyword("PROC_VER", proc_ver);
