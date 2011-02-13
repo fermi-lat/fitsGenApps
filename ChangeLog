@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Feb 12 23:44:52 PST 2011
+fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+testing PsfCut
+    *
+------------------------------------------------------------
+User: jchiang  Sat Feb 12 23:44:52 PST 2011
 fitsGenApps/pfiles
 
 Modified Files:
