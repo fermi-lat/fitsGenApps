@@ -257,7 +257,7 @@ void MakeFt1::run() {
                ft1[variable->first].set(merit[variable->second.meritName()]);
             }
             int my_evtclass = eventClass(merit.row());
-               ft1["event_class"].set(my_evtclass);
+            ft1["event_class"].set(my_evtclass);
             ft1["conversion_type"].set(merit.conversionType());
             ncount++;
          }
