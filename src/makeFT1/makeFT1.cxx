@@ -42,7 +42,7 @@
 #include "tip/IFileSvc.h"
 
 #include "fitsGen/Ft1File.h"
-#include "fitsGen/MeritFile.h"
+#include "fitsGen/MeritFile2.h"
 #include "fitsGen/EventClassifier.h"
 #include "fitsGen/XmlEventClassifier.h"
 
@@ -175,6 +175,7 @@ private:
    EventClassifier * m_classifier;
    void setClassifier(const std::string & filter);
    unsigned int eventClass(tip::ConstTableRecord & row) const;
+   unsigned int eventClass(fitsGen::MeritFile2 & merit) const;
 };
 
 std::string MakeFt1::s_cvs_id("$Name$");
@@ -230,7 +231,7 @@ void MakeFt1::run() {
    fitsGen::Ft1File ft1(fitsFile, 0);
    try {
       tip::IFileSvc::instance().setTmpFileName(tempRootFile);
-      fitsGen::MeritFile merit(rootFile, "MeritTuple", filter);
+      fitsGen::MeritFile2 merit(rootFile, "MeritTuple", filter);
       setClassifier(filter);
 
       if (tstart == 0 && tstop == 0) {
@@ -250,13 +251,13 @@ void MakeFt1::run() {
       ft1.header().addHistory("Filter string: " + filter);
 
       int ncount(0);
-      for ( ; merit.itor() != merit.end(); merit.next(), ft1.next()) {
+      for ( ; merit.index() != merit.nrows(); merit.next(), ft1.next()) {
          if (gti.accept(merit["EvtElapsedTime"])) {
             for (::Ft1Map_t::const_iterator variable = ft1Dict.begin();
                  variable != ft1Dict.end(); ++variable) {
                ft1[variable->first].set(merit[variable->second.meritName()]);
             }
-            int my_evtclass = eventClass(merit.row());
+            int my_evtclass = eventClass(merit);
             ft1["event_class"].set(my_evtclass);
             ft1["conversion_type"].set(merit.conversionType());
             ncount++;
@@ -321,4 +322,8 @@ void MakeFt1::setClassifier(const std::string & filter) {
 
 unsigned int MakeFt1::eventClass(tip::ConstTableRecord & row) const {
    return m_classifier->operator()(row);
+}
+
+unsigned int MakeFt1::eventClass(fitsGen::MeritFile2 & merit) const {
+   return m_classifier->operator()(merit);
 }

@@ -256,18 +256,19 @@ void MakeLLE::run() {
       
       int ncount(0);
       std::cout << std::setprecision(13);
-      while (merit.next() != merit.nrows()) {
-         // double time = merit["EvtElapsedTime"];
-         // double event_id = merit["EvtEventId"];
-         // double energy = merit["EvtEnergyCorr"];
-         // std::cout << time << "  " 
-         //           << energy << "  " 
-         //           << event_id << "  "
-         //           << merit["TkrNumTracks"] << std::endl;
-         if (
-            gti.accept(merit["EvtElapsedTime"]) 
-//            && psf_cut(merit)
-            ) {
+      do {
+         double time = merit["EvtElapsedTime"];
+         double event_id = merit["EvtEventId"];
+         double energy = merit["EvtEnergyCorr"];
+         if (energy == 0) {
+            std::cout << merit.index() << "  "
+                      << time << "  " 
+                      << energy << "  " 
+                      << event_id << "  "
+                      << merit["TkrNumTracks"] << std::endl;
+         }
+         if (gti.accept(merit["EvtElapsedTime"]) 
+             && psf_cut(merit)) {
             for (::LLEMap_t::const_iterator variable = lleDict.begin();
                  variable != lleDict.end(); ++variable) {
                lle[variable->first].set(merit[variable->second.meritName()]);
@@ -275,7 +276,7 @@ void MakeLLE::run() {
             ncount++;
          }
          lle.next();
-      }
+      } while (merit.next() != merit.nrows());
       formatter.info() << "number of rows processed: " << ncount << std::endl;
       
       lle.setNumRows(ncount);

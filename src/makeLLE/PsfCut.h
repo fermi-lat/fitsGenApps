@@ -13,12 +13,9 @@
 
 #include "astro/SkyDir.h"
 
-namespace tip {
-   class ConstTableRecord;
-}
-
 namespace fitsGen {
    class MeritFile;
+   class MeritFile2;
 }
 
 namespace fitsGenApps {
@@ -31,7 +28,7 @@ public:
 
    ~PsfCut() throw();
 
-   bool operator()(tip::ConstTableRecord & row) const;
+   bool operator()(const fitsGen::MeritFile2 & merit) const;
 
 private:
 
