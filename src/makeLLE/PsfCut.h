@@ -6,6 +6,9 @@
  * $Header$
  */
 
+#ifndef fitsGenApps_PsfCut_h
+#define fitsGenApps_PsfCut_h
+
 #include <string>
 
 #include "astro/SkyDir.h"
@@ -43,8 +46,12 @@ private:
    std::string m_time;
    std::string m_energy;
 
+   double m_tstart;
+
    double theta68(double energy) const;
 
 };
 
 } // namespace fitsGenApps
+
+#endif // fitsGenApps_PsfCut_h

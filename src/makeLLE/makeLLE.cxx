@@ -43,7 +43,7 @@
 #include "tip/IFileSvc.h"
 
 #include "fitsGen/Ft1File.h"
-#include "fitsGen/MeritFile.h"
+#include "fitsGen/MeritFile2.h"
 
 #include "PsfCut.h"
 
@@ -200,16 +200,18 @@ void MakeLLE::run() {
    std::string dataDir(facilities::commonUtilities::getDataPath("fitsGen"));
 
 // Standard filter string for LLE, allowing for non-default option.
-   std::string filter("FswGamState==0 && TkrNumTracks>0 && " 
+   std::string filter("(FswGamState==0) && (TkrNumTracks>0) && " 
                       "(GltGemEngine==6 || GltGemEngine==7) && "
-                      "EvtEnergyCorr>0.");
+                      "(EvtEnergyCorr>0)");
+   // std::string filter("FswGamState==0 && TkrNumTracks>0 && " 
+   //                    "(GltGemEngine==6 || GltGemEngine==7)");
    if (newFilter != "none" && newFilter != "") {
       filter = newFilter;
    }
 
 // Add zenith angle cut.
    std::ostringstream zenangle_cut;
-   zenangle_cut << " && FT1ZenithTheta < " << zmax;
+   zenangle_cut << " && (FT1ZenithTheta<" << zmax << ")";
    filter += zenangle_cut.str();
 
 // Add time cut.
@@ -220,7 +222,7 @@ void MakeLLE::run() {
    time_cut << std::setprecision(10);
    time_cut << " && (EvtElapsedTime >= " << tmin << ") "
             << " && (EvtElapsedTime <= " << tmax << ")";
-//   filter += time_cut.str();
+   filter += time_cut.str();
 
    st_stream::StreamFormatter formatter("MakeLLE", "run", 2);
    formatter.info() << "applying TCut: " << filter << std::endl;
@@ -238,7 +240,7 @@ void MakeLLE::run() {
    dataSubselector::Cuts my_cuts;
    fitsGen::Ft1File lle(outfile, 0, "EVENTS", "lle.tpl");
    try {
-      fitsGen::MeritFile merit(infile, "MeritTuple", filter);
+      fitsGen::MeritFile2 merit(infile, "MeritTuple", filter);
       
       lle.setObsTimes(tmin, tmax);
       dataSubselector::Gti gti;
@@ -246,22 +248,33 @@ void MakeLLE::run() {
       
       ::addNeededFields(lle, lleDict);
       
+      std::cout << "merit.nrows(): " << merit.nrows() << std::endl;
       lle.setNumRows(merit.nrows());
       
       lle.header().addHistory("Input file: " + infile);
       lle.header().addHistory("Filter string: " + filter);
       
       int ncount(0);
-      for ( ; merit.itor() != merit.end(); merit.next(), lle.next()) {
-         if (gti.accept(merit["EvtElapsedTime"]) && 
-             merit["EvtEnergyCorr"] > 0 &&
-             psf_cut(merit.row())) {
+      std::cout << std::setprecision(13);
+      while (merit.next() != merit.nrows()) {
+         // double time = merit["EvtElapsedTime"];
+         // double event_id = merit["EvtEventId"];
+         // double energy = merit["EvtEnergyCorr"];
+         // std::cout << time << "  " 
+         //           << energy << "  " 
+         //           << event_id << "  "
+         //           << merit["TkrNumTracks"] << std::endl;
+         if (
+            gti.accept(merit["EvtElapsedTime"]) 
+//            && psf_cut(merit)
+            ) {
             for (::LLEMap_t::const_iterator variable = lleDict.begin();
                  variable != lleDict.end(); ++variable) {
                lle[variable->first].set(merit[variable->second.meritName()]);
             }
             ncount++;
          }
+         lle.next();
       }
       formatter.info() << "number of rows processed: " << ncount << std::endl;
       
