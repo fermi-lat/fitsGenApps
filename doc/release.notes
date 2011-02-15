@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-03-00 15-Feb-2011 jchiang use MeritFile2 implementation in makeFT1; add makeLLE application, which is still incomplete
  fitsGenApps-00-02-00 04-Oct-2010 jchiang get rid of tempfile option for makeFT1
  fitsGenApps-00-01-02 29-Aug-2010 jchiang add user access to temp file name used to prefilter merit data for assigning xml-based classifications
  fitsGenApps-00-01-01 15-Aug-2010 jchiang add makeFT1 proc_ver option
