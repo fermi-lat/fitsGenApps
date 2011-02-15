@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 15 11:18:18 PST 2011
+fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+switch makeFT1 to use MeritFile2
+    *
+------------------------------------------------------------
 User: jchiang  Mon Feb 14 23:33:17 PST 2011
 fitsGenApps/src/makeLLE
 
