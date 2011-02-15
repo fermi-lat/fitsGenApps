@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 15 11:18:18 PST 2011
+fitsGenApps/src/makeLLE
+
+Modified Files:
+	PsfCut.cxx PsfCut.h makeLLE.cxx 
+Log Message:
+switch makeFT1 to use MeritFile2
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 15 11:18:18 PST 2011
 fitsGenApps/src/makeFT1
 
 Modified Files:
