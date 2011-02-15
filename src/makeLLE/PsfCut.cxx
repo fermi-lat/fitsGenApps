@@ -21,7 +21,9 @@ PsfCut::PsfCut(const std::string & ft2file,
    : m_ft2(new fitsGen::MeritFile(ft2file, "SC_DATA")),
      m_srcdir(src_ra, src_dec), m_theta(0), 
      m_ra("FT1Ra"), m_dec("FT1Dec"),
-     m_time("EvtElapsedTime"), m_energy("EvtEnergyCorr") {}
+     m_time("EvtElapsedTime"), m_energy("EvtEnergyCorr") {
+   m_tstart = m_ft2->row()["START"].get();
+}
 
 PsfCut::~PsfCut() throw() {
    delete m_ft2;
@@ -29,6 +31,11 @@ PsfCut::~PsfCut() throw() {
 
 bool PsfCut::operator()(tip::ConstTableRecord & row) const {
    double time = row[m_time].get();
+   if (time < m_tstart) {
+      std::cout << "FT2 start: " << m_tstart << "\n"
+                << "event time: " << time << std::endl;
+      throw std::runtime_error("Event time not covered by FT2 file");
+   }
    if (time > m_ft2->row()["STOP"].get()) {
       while (time > m_ft2->row()["STOP"].get() && 
              m_ft2->itor() != m_ft2->end()) {
@@ -42,14 +49,15 @@ bool PsfCut::operator()(tip::ConstTableRecord & row) const {
       m_theta = zAxis.difference(m_srcdir)*180./M_PI;
    }
 
-   // astro::SkyDir dir(row[m_ra].get(), row[m_dec].get());
-   // double theta = dir.difference(m_srcdir)*180./M_PI;
+//   std::cout << time << "  " << m_theta << std::endl;
+   astro::SkyDir dir(row[m_ra].get(), row[m_dec].get());
+   double theta = dir.difference(m_srcdir)*180./M_PI;
    
-   double ra = row[m_ra].get();
-   double dec = row[m_dec].get();
-   double theta = 
-      std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
-                + std::pow((dec - m_srcdir.dec()), 2.));
+   // double ra = row[m_ra].get();
+   // double dec = row[m_dec].get();
+   // double theta = 
+   //    std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
+   //              + std::pow((dec - m_srcdir.dec()), 2.));
 
    return theta < theta68(row[m_energy].get());
 }
