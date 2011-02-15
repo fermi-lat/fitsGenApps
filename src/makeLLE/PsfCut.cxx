@@ -11,6 +11,7 @@
 #include "tip/Table.h"
 
 #include "fitsGen/MeritFile.h"
+#include "fitsGen/MeritFile2.h"
 
 #include "PsfCut.h"
 
@@ -29,8 +30,8 @@ PsfCut::~PsfCut() throw() {
    delete m_ft2;
 }
 
-bool PsfCut::operator()(tip::ConstTableRecord & row) const {
-   double time = row[m_time].get();
+bool PsfCut::operator()(const fitsGen::MeritFile2 & merit) const {
+   double time = merit[m_time];
    if (time < m_tstart) {
       std::cout << "FT2 start: " << m_tstart << "\n"
                 << "event time: " << time << std::endl;
@@ -50,16 +51,16 @@ bool PsfCut::operator()(tip::ConstTableRecord & row) const {
    }
 
 //   std::cout << time << "  " << m_theta << std::endl;
-   astro::SkyDir dir(row[m_ra].get(), row[m_dec].get());
+   astro::SkyDir dir(merit[m_ra], merit[m_dec]);
    double theta = dir.difference(m_srcdir)*180./M_PI;
    
-   // double ra = row[m_ra].get();
-   // double dec = row[m_dec].get();
+   // double ra = merit[m_ra];
+   // double dec = merit[m_dec];
    // double theta = 
    //    std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
    //              + std::pow((dec - m_srcdir.dec()), 2.));
 
-   return theta < theta68(row[m_energy].get());
+   return theta < theta68(merit[m_energy]);
 }
 
 double PsfCut::theta68(double energy) const {
