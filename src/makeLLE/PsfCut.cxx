@@ -8,10 +8,7 @@
 
 #include <stdexcept>
 
-#include "tip/Table.h"
-
 #include "fitsGen/MeritFile.h"
-#include "fitsGen/MeritFile2.h"
 
 #include "PsfCut.h"
 
@@ -20,9 +17,7 @@ namespace fitsGenApps {
 PsfCut::PsfCut(const std::string & ft2file, 
                double src_ra, double src_dec) 
    : m_ft2(new fitsGen::MeritFile(ft2file, "SC_DATA")),
-     m_srcdir(src_ra, src_dec), m_theta(0), 
-     m_ra("FT1Ra"), m_dec("FT1Dec"),
-     m_time("EvtElapsedTime"), m_energy("EvtEnergyCorr") {
+     m_srcdir(src_ra, src_dec), m_theta(0) {
    m_tstart = m_ft2->row()["START"].get();
 }
 
@@ -30,8 +25,9 @@ PsfCut::~PsfCut() throw() {
    delete m_ft2;
 }
 
-bool PsfCut::operator()(const fitsGen::MeritFile2 & merit) const {
-   double time = merit[m_time];
+bool PsfCut::operator()(double energy, double time, 
+                        double ra, double dec) const {
+// Update off-axis angle as a function of time.
    if (time < m_tstart) {
       std::cout << "FT2 start: " << m_tstart << "\n"
                 << "event time: " << time << std::endl;
@@ -50,31 +46,32 @@ bool PsfCut::operator()(const fitsGen::MeritFile2 & merit) const {
       m_theta = zAxis.difference(m_srcdir)*180./M_PI;
    }
 
-//   std::cout << time << "  " << m_theta << std::endl;
-   astro::SkyDir dir(merit[m_ra], merit[m_dec]);
-   double theta = dir.difference(m_srcdir)*180./M_PI;
-   
-   // double ra = merit[m_ra];
-   // double dec = merit[m_dec];
-   // double theta = 
-   //    std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
-   //              + std::pow((dec - m_srcdir.dec()), 2.));
+   // astro::SkyDir dir(ra, dec);
+   // double theta = dir.difference(m_srcdir)*180./M_PI;
 
-   return theta < theta68(merit[m_energy]);
+   /// This unfortunate calculation of the photon-source offset angle
+   /// is from one of the original LLE macros and probably was used in
+   /// deriving the theta68 parameters.
+   double theta = 
+      std::sqrt(std::pow(std::cos(dec*0.0174533)*(ra - m_srcdir.ra()), 2.) 
+                + std::pow((dec - m_srcdir.dec()), 2.));
+   return theta <= theta68(energy);
 }
 
 double PsfCut::theta68(double energy) const {
-   double Eb = 59.;
-   double Nb = 11.5;
-   double low_sl = -0.55;
-   double hi_sl = -0.87;
+   double Eb, Nb, low_sl, hi_sl;
    if (m_theta > 40) {
       Eb = 100.;
       Nb = 10.5;
       low_sl = -0.65;
       hi_sl = -0.81;
+   } else {
+      Eb = 59.;
+      Nb = 11.5;
+      low_sl = -0.55;
+      hi_sl = -0.87;
    }
-   return Nb*std::min(pow(energy/Eb, low_sl), pow(energy/Eb, hi_sl));
+   return Nb*std::min(std::pow(energy/Eb, low_sl), std::pow(energy/Eb, hi_sl));
 }
 
 } // namespace fitsGenApps

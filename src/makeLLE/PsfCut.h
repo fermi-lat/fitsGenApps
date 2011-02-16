@@ -15,7 +15,6 @@
 
 namespace fitsGen {
    class MeritFile;
-   class MeritFile2;
 }
 
 namespace fitsGenApps {
@@ -28,7 +27,7 @@ public:
 
    ~PsfCut() throw();
 
-   bool operator()(const fitsGen::MeritFile2 & merit) const;
+   bool operator()(double energy, double time, double ra, double dec) const;
 
 private:
 
@@ -37,11 +36,6 @@ private:
    astro::SkyDir m_srcdir;
    
    mutable double m_theta;
-
-   std::string m_ra;
-   std::string m_dec;
-   std::string m_time;
-   std::string m_energy;
 
    double m_tstart;
 
