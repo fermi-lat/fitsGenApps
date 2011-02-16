@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 15 22:04:28 PST 2011
+fitsGenApps/src/makeLLE
+
+Modified Files:
+	PsfCut.cxx PsfCut.h makeLLE.cxx 
+Log Message:
+finish off makeLLE
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-03-00, operation: add
 Package: fitsGenApps
