@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon May 30 21:42:07 PDT 2011
+fitsGenApps
+
+Modified Files:
+	SConscript fitsGenAppsLib.py 
+Log Message:
+add lle2drm application
+    *
+------------------------------------------------------------
 User: jchiang  Mon May 30 21:41:12 PDT 2011
 fitsGenApps/src/lle2drm
 
