@@ -15,6 +15,7 @@ if baseEnv['PLATFORM'] == "posix":
     progEnv.Append(CPPDEFINES = 'TRAP_FPE')
 makeFT1Bin = progEnv.Program('makeFT1', 'src/makeFT1/makeFT1.cxx')
 makeLLEBin = progEnv.Program('makeLLE', listFiles(['src/makeLLE/*.cxx']))
+lle2drmBin = progEnv.Program('lle2drm', listFiles(['src/lle2drm/*.cxx']))
 makeFT2Bin = progEnv.Program('makeFT2', 'src/makeFT2/makeFT2.cxx')
 makeFT2aBin = progEnv.Program('makeFT2a', 'src/makeFT2a/makeFT2a.cxx')
 egret2FT1Bin = progEnv.Program('egret2FT1', listFiles(['src/egret2FT1/*.cxx']))
@@ -27,6 +28,7 @@ test_appBin = progEnv.Program('test_app', listFiles(['src/test_app/*.cxx']))
 
 progEnv.Tool('registerTargets', package = 'fitsGenApps', 
              binaryCxts = [[makeFT1Bin, progEnv], [makeLLEBin, progEnv], 
+                           [lle2drmBin, progEnv], 
                            [makeFT2Bin, progEnv], [makeFT2aBin, progEnv],
                            [egret2FT1Bin, progEnv], [convertFT1Bin, progEnv],
                            [partitionBin, progEnv], [irfTupleBin, progEnv], 

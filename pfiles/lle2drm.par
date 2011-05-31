@@ -1,0 +1,34 @@
+# @file lle2drm.par
+# $Header$
+#
+infile, fr, a, "" , , , Input merit file(s)
+specfile, fr, a, "", , , Spectrum file name
+outfile, f, a, "", , , Output filename
+ngen, r, a, , , , Number of generated MC events
+#
+# Parameters for LLE selection
+#
+ra, r, a, 353.40015, , , RA of source
+dec, r, a, -66.32407, , , Dec of source
+theta, r, a, 10, , , Off-axis angle at trigger time
+zmax, r, a, 105, , , Maximum zenith angle
+tmin, r, a, INDEF, , , Minimum event time (MET)
+tmax, r, a, INDEF, , , Maximum event time (MET)
+TCuts, s, h, "", , , User-specified TCut (overrides standard LLE selection)
+#
+# Energy binning parameters for MC values
+#
+emin, r, h, 10, , , "Start value for first energy bin in MeV"
+emax, r, h, 1e5, , , "Stop value for last energy bin in MeV"
+enumbins, i, h, 100, , , "Number of logarithmically uniform energy bins"
+phindex, r, h, -1, , , "Photon index used in MC generation"
+#
+# Merit variable to be used as measured energy
+#
+efield,s,h,"EvtEnergyCorr",,,Energy variable name in Merit
+
+chatter, i, h, 2, 0, 4, Output verbosity
+clobber, b, h, yes, , , "Overwrite existing output files"
+debug, b, h, no, , , "Activate debugging mode"
+gui, b, h, no, , , "GUI mode activated"
+mode, s, h, "ql", , , "Mode of automatic parameters"
