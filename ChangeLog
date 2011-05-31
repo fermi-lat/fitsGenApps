@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue May 31 08:52:13 PDT 2011
+fitsGenApps/src/lle2drm
+
+Modified Files:
+	MCResponse.cxx MCResponse.h lle2drm.cxx 
+Log Message:
+load IRFs for IResponse constructor; glean number of generated events from jobinfo tree in merit files
+    *
+------------------------------------------------------------
+User: jchiang  Tue May 31 08:52:13 PDT 2011
 fitsGenApps/pfiles
 
 Modified Files:
