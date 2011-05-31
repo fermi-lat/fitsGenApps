@@ -8,6 +8,8 @@ def generate(env, **kw):
     env.Tool('dataSubselectorLib')
     env.Tool('embed_pythonLib')
     env.Tool('evtUtilsLib')
+    env.Tool('evtbinLib')
+    env.Tool('rspgenLib')
     env.Tool('addLibrary', library = env['rootGuiLibs'])
 
 def exists(env):
