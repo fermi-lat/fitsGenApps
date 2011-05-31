@@ -8,6 +8,7 @@
 
 #include <cctype>
 
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 
@@ -22,6 +23,10 @@
 #include "st_app/AppParGroup.h"
 #include "st_app/StApp.h"
 #include "st_app/StAppFactory.h"
+
+#include "tip/Header.h"
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
 
 #include "st_facilities/Util.h"
 
@@ -67,7 +72,7 @@ public:
    virtual void banner() const;
 
 private:
-   void promptForParameters();
+   void read_tbounds();
    void buildFilterString();
 
    st_app::AppParGroup & m_pars;
@@ -90,30 +95,12 @@ void LLE2DRM::banner() const {
    }
 }
 
-void LLE2DRM::promptForParameters() {
-   m_pars.Prompt("infile");
-   m_pars.Prompt("specfile");
-   m_pars.Prompt("outfile");
-   m_pars.Prompt("ra");
-   m_pars.Prompt("dec");
-   m_pars.Prompt("theta");
-   m_pars.Prompt("zmax");
-   try {
-      m_pars.Prompt("tmin");
-      m_pars.Prompt("tmax");
-      m_tmin = m_pars["tmin"];
-      m_tmax = m_pars["tmax"];
-   } catch (const hoops::Hexception &) {
-      // Assume INDEF is given as one of the parameter values,
-      // so use default of applying no time cut.
-      m_tmin = 0;
-      m_tmax = 0;
-   }
-   m_pars.Save();
-}
-
 void LLE2DRM::run() {
-   promptForParameters();
+   m_pars.Prompt();
+   m_pars.Save();
+
+   read_tbounds();
+
    buildFilterString();
 
 // Load IRFs (needed by base class of MCResponse)
@@ -126,7 +113,8 @@ void LLE2DRM::run() {
    long nmc = m_pars["enumbins"];
    evtbin::LogBinner true_en_binner(emin, emax, nmc, "true energies");
    double phindex = m_pars["phindex"];
-   fitsGenApps::MCResponse drm(spec_file, &true_en_binner, phindex);
+   double area = m_pars["area"];
+   fitsGenApps::MCResponse drm(spec_file, &true_en_binner, phindex, area);
 
 // Ingest the merit data
    std::string infile = m_pars["infile"];
@@ -136,8 +124,18 @@ void LLE2DRM::run() {
    
 // Write the rsp file
    std::string outfile = m_pars["outfile"];
-   std::string resp_tpl(commonUtilities::joinPath(commonUtilities::getDataPath("rspgen"), "LatResponseTemplate"));
+   std::string dataPath(commonUtilities::getDataPath("rspgen"));
+   std::string resp_tpl(commonUtilities::joinPath(dataPath,
+                                                  "LatResponseTemplate"));
    drm.writeOutput("lle2drm", outfile, resp_tpl);
+}
+
+void LLE2DRM::read_tbounds() {
+   const tip::Table * spectrum = 
+      tip::IFileSvc::instance().readTable(m_pars["specfile"], "SPECTRUM");
+   spectrum->getHeader().getKeyword("TSTART", m_tmin);
+   spectrum->getHeader().getKeyword("TSTOP", m_tmax);
+   delete spectrum;
 }
 
 void LLE2DRM::buildFilterString() {
@@ -145,7 +143,7 @@ void LLE2DRM::buildFilterString() {
    ::toLower(newFilter);
    if (newFilter == "none" || newFilter == "") {
       // Standard filter string for LLE, allowing for non-default option.
-      m_filter = std::string("(FswGamState==0) && (TkrNumTracks>0) && " 
+      m_filter = std::string("(ObfGamState==0) && (TkrNumTracks>0) && " 
                              "(GltGemEngine==6 || GltGemEngine==7) && "
                              "(EvtEnergyCorr>0)");
    } else {
@@ -156,6 +154,7 @@ void LLE2DRM::buildFilterString() {
    double zmax = m_pars["zmax"];
    std::ostringstream zenithCut;
    zenithCut << "(FT1ZenithTheta < " << zmax << ")";
+   m_filter += " && " + zenithCut.str();
 
 // PSF cut
    double ra = m_pars["ra"];
@@ -172,17 +171,16 @@ void LLE2DRM::buildFilterString() {
           << ra << ")))^2 + (FT1Dec- (" 
           << dec << "))^2)< ("
           << radius << ")^2)";
+   m_filter += " && " + psfCut.str();
 
-   m_filter += " && " + zenithCut.str() + " && " + psfCut.str();
 
-// Time cut (if specified)
-   if (m_tmin != 0 && m_tmax != 0) {
-      std::ostringstream timeCut;
-      timeCut << "((EvtElapsedTime >= " << m_tmin << ") && "
-              << "(EvtElapsedTime <= " << m_tmax << "))";
-      m_filter += "&& " + timeCut.str();
-   }
+// Time cut
+   std::ostringstream timeCut;
+   timeCut << std::setprecision(14)
+           << "((EvtElapsedTime >= " << m_tmin << ") && "
+           << "(EvtElapsedTime <= " << m_tmax << "))";
+   m_filter += "&& " + timeCut.str();
 
    st_stream::StreamFormatter formatter("LLE2DRM", "run", 2);
-   formatter.info() << "applying TCut: " << m_filter << std::endl;
+   formatter.info() << "Applying TCut: " << m_filter << "\n" << std::endl;
 }

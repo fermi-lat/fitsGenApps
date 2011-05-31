@@ -26,7 +26,8 @@ public:
 
    MCResponse(const std::string & spec_file,
               const evtbin::Binner * true_en_binner,
-              double index=-1);
+              double index=-1.,
+              double area=60000.);
 
    virtual ~MCResponse() throw();
 
@@ -36,11 +37,6 @@ public:
                         const std::string & filter,
                         double tmin=0, double tmax=0,
                         const std::string & efield="EvtEnergyCorr");
-
-   void setResponseData(size_t k, const std::vector<double> & response);
-
-   void setResponseData(double true_energy, 
-                        const std::vector<double> & response);
 
    void setArea(double area);
 
