@@ -34,7 +34,6 @@ public:
 
    void ingestMeritData(const std::vector<std::string> & meritFiles,
                         const std::string & filter,
-                        double ngenerated,
                         double tmin=0, double tmax=0,
                         const std::string & efield="EvtEnergyCorr");
 
