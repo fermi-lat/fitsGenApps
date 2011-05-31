@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-04-01 31-May-2011 jchiang more lle2drm corrections
  fitsGenApps-00-04-00 30-May-2011 jchiang added lle2drm application; testing still needed
  fitsGenApps-00-03-01 15-Feb-2011 jchiang finish off makeLLE
  fitsGenApps-00-03-00 15-Feb-2011 jchiang use MeritFile2 implementation in makeFT1; add makeLLE application, which is still incomplete
