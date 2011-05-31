@@ -8,6 +8,8 @@
 
 #include <cmath>
 
+#include <iostream>
+
 #include "TChain.h"
 #include "TH2D.h"
 
@@ -37,13 +39,14 @@ void MCResponse::compute(double true_energy, std::vector<double> & response) {
 
 void MCResponse::ingestMeritData(const std::vector<std::string> & meritFiles,
                                  const std::string & filter,
-                                 double ngenerated,
                                  double tmin, double tmax,
                                  const std::string & efield) {
    TChain * mc_data = new TChain("MeritTuple");
+   TChain * job_info = new TChain("jobinfo");
 
    for (size_t i(0); i < meritFiles.size(); i++) {
       mc_data->Add(meritFiles[i].c_str());
+      job_info->Add(meritFiles[i].c_str());
    }
 
    mc_data->SetBranchStatus("*", 0);
@@ -69,6 +72,14 @@ void MCResponse::ingestMeritData(const std::vector<std::string> & meritFiles,
       tmax = mc_data->GetMaximum("EvtElapsedTime");
    }
 
+   long ngenerated(0);
+   Long64_t generated;
+   job_info->SetBranchAddress("generated", &generated);
+   for (size_t i(0); i < meritFiles.size(); i++) {
+      job_info->GetEntry(i);
+      ngenerated += generated;
+   }
+
    double duration = tmax - tmin;
 
    int nmeas = m_app_en_binner->getNumBins();
@@ -83,12 +94,12 @@ void MCResponse::ingestMeritData(const std::vector<std::string> & meritFiles,
    mc_data->Draw(DRM_directive.str().c_str(), filter.c_str(), "colz");
 
    for (size_t k(0); k < m_nmc; k++) {
-      double norm = m_area/ngenerated/energyBinScale(k);
+      double norm = m_area/static_cast<double>(ngenerated)/energyBinScale(k);
       std::vector<double> response;
       for (size_t kmeas(0); kmeas < nmeas; kmeas++) {
          response.push_back(norm*DRM.GetBinContent(k+1, kmeas+1));
       }
-      setResponseData(k, response);
+      m_responses.push_back(response);
    }
 
    delete mc_data;

@@ -27,6 +27,8 @@
 
 #include "evtbin/LogBinner.h"
 
+#include "irfLoader/Loader.h"
+
 #include "MCResponse.h"
 
 using facilities::commonUtilities;
@@ -92,7 +94,6 @@ void LLE2DRM::promptForParameters() {
    m_pars.Prompt("infile");
    m_pars.Prompt("specfile");
    m_pars.Prompt("outfile");
-   m_pars.Prompt("ngen");
    m_pars.Prompt("ra");
    m_pars.Prompt("dec");
    m_pars.Prompt("theta");
@@ -115,6 +116,9 @@ void LLE2DRM::run() {
    promptForParameters();
    buildFilterString();
 
+// Load IRFs (needed by base class of MCResponse)
+   irfLoader::Loader::go();
+
 // Create the MCResponse object
    std::string spec_file = m_pars["specfile"];
    double emin = m_pars["emin"];
@@ -128,8 +132,7 @@ void LLE2DRM::run() {
    std::string infile = m_pars["infile"];
    std::vector<std::string> meritFiles;
    st_facilities::Util::readLines(infile, meritFiles);
-   double ngen = m_pars["ngen"];
-   drm.ingestMeritData(meritFiles, m_filter, ngen, m_tmin, m_tmax);
+   drm.ingestMeritData(meritFiles, m_filter, m_tmin, m_tmax);
    
 // Write the rsp file
    std::string outfile = m_pars["outfile"];
@@ -140,11 +143,11 @@ void LLE2DRM::run() {
 void LLE2DRM::buildFilterString() {
    std::string newFilter = m_pars["TCuts"];
    ::toLower(newFilter);
-   if (newFilter != "none" && newFilter != "") {
+   if (newFilter == "none" || newFilter == "") {
       // Standard filter string for LLE, allowing for non-default option.
       m_filter = std::string("(FswGamState==0) && (TkrNumTracks>0) && " 
-                          "(GltGemEngine==6 || GltGemEngine==7) && "
-                          "(EvtEnergyCorr>0)");
+                             "(GltGemEngine==6 || GltGemEngine==7) && "
+                             "(EvtEnergyCorr>0)");
    } else {
       m_filter = newFilter;
    }

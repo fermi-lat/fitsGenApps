@@ -4,7 +4,6 @@
 infile, fr, a, "" , , , Input merit file(s)
 specfile, fr, a, "", , , Spectrum file name
 outfile, f, a, "", , , Output filename
-ngen, r, a, , , , Number of generated MC events
 #
 # Parameters for LLE selection
 #
