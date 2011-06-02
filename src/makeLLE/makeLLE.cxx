@@ -194,9 +194,15 @@ void MakeLLE::run() {
    std::string dataDir(facilities::commonUtilities::getDataPath("fitsGen"));
 
 // Standard filter string for LLE, allowing for non-default option.
-   std::string filter("(FswGamState==0) && (TkrNumTracks>0) && " 
+   std::string filter("(TkrNumTracks>0) && " 
                       "(GltGemEngine==6 || GltGemEngine==7) && "
                       "(EvtEnergyCorr>0)");
+   bool mc_data = m_pars["mc_data"];
+   if (mc_data) {
+      filter = "(ObfGamState==0) && " + filter;
+   } else {
+      filter = "(FswGamState==0) && " + filter;
+   }
    if (newFilter != "none" && newFilter != "") {
       filter = newFilter;
    }
@@ -231,7 +237,16 @@ void MakeLLE::run() {
 
    dataSubselector::Cuts my_cuts;
    Ft1File lle(outfile, 0, "EVENTS", "lle.tpl");
-   MeritFile2 merit(infile, "MeritTuple", filter);
+
+   MeritFile2 * merit_ptr(0);
+   if (infile.find("@") == 0) {
+      std::vector<std::string> merit_files;
+      st_facilities::Util::readLines(infile.substr(1), merit_files);
+      merit_ptr = new MeritFile2(merit_files, "MeritTuple", filter);
+   } else {
+      merit_ptr = new MeritFile2(infile, "MeritTuple", filter);
+   }
+   MeritFile2 & merit(*merit_ptr);
       
    lle.setObsTimes(tmin, tmax);
    dataSubselector::Gti gti;
@@ -277,4 +292,6 @@ void MakeLLE::run() {
    
    my_cuts.writeGtiExtension(outfile);
    st_facilities::FitsUtil::writeChecksums(outfile);
+
+   delete merit_ptr;
 }
