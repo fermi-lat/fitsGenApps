@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun  1 17:34:40 PDT 2011
+fitsGenApps/pfiles
+
+Modified Files:
+	makeLLE.par 
+Log Message:
+enable multiple input files to makeLLE and add switch to handle Monte Carlo input data; instrument MCReponse.cxx to output the incident flux per run based on jobinfo tree
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-04-01, operation: add
 Package: fitsGenApps
