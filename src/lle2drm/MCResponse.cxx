@@ -8,7 +8,8 @@
 
 #include <cmath>
 
-#include <iostream>
+#include <iomanip>
+#include <sstream>
 
 #include "TCanvas.h"
 #include "TChain.h"
@@ -82,11 +83,22 @@ void MCResponse::ingestMeritData(const std::vector<std::string> & meritFiles,
 
    long ngenerated(0);
    Long64_t generated;
+   Double_t start, stop;
    job_info->SetBranchAddress("generated", &generated);
+   job_info->SetBranchAddress("start", &start);
+   job_info->SetBranchAddress("stop", &stop);
    for (size_t i(0); i < meritFiles.size(); i++) {
       job_info->GetEntry(i);
       ngenerated += generated;
-      formatter.info(3) << meritFiles[i] << ": " << generated << std::endl;
+      double dt = stop - start;
+      std::ostringstream tbounds;
+      tbounds << std::setprecision(14) 
+              << "start: " << start << "\n"
+              << "stop: " << stop << "\n";
+      formatter.info(3) << meritFiles[i] << ": " << generated << "\n"
+                        << tbounds.str() 
+                        << "flux: " << generated/dt/m_area << std::endl;
+
    }
    formatter.info() << "Total number of MC-generated events: " 
                     << ngenerated << std::endl;
