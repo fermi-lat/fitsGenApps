@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Thu Jul  7 05:53:33 PDT 2011
+ScienceTools-scons/fitsGenApps/src/lle2drm
+
+Modified Files:
+	lle2drm.cxx 
+Log Message:
+gcc 4.4 compilation
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-24-00, operation: add
 Package: fitsGenApps
