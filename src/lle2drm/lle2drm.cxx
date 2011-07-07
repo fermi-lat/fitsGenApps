@@ -7,6 +7,7 @@
  */
 
 #include <cctype>
+#include <cstdlib>
 
 #include <iomanip>
 #include <sstream>
