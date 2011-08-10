@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Aug 10 13:29:47 PDT 2011
+fitsGenApps/src/makeLLE
+
+Modified Files:
+	makeLLE.cxx 
+Log Message:
+add apply_psf parameter; don't convert filter string to lower case
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug 10 13:29:47 PDT 2011
 fitsGenApps/pfiles
 
 Modified Files:
