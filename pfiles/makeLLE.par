@@ -15,6 +15,7 @@ dict_file,fr,a,,,,merit-to-LLE dictionary file
 mc_data,b,h,no,,,Using Monte Carlo data
 file_version,s,h,1,,,Version of LLE file
 proc_ver,i,h,1,,,"Processing version"
+apply_psf,b,h,yes,,,"Apply PSF cut"
 
 chatter,i,h,2,0,4,Output verbosity
 clobber,        b, h, yes, , , "Overwrite existing output files"

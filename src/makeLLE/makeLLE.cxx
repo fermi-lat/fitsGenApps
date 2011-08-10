@@ -183,10 +183,11 @@ void MakeLLE::run() {
    std::string outfile = m_pars["outfile"];
    std::string newFilter = m_pars["TCuts"];
    double zmax = m_pars["zmax"];
-   ::toLower(newFilter);
+//   ::toLower(newFilter);
    double t0 = m_pars["t0"];
    double dtstart = m_pars["dtstart"];
    double dtstop = m_pars["dtstop"];
+   bool apply_psf = m_pars["apply_psf"];
 
    double tmin(t0 + dtstart);
    double tmax(t0 + dtstop);
@@ -266,7 +267,7 @@ void MakeLLE::run() {
       double energy = merit["EvtEnergyCorr"];
       double ra = merit["FT1Ra"];
       double dec = merit["FT1Dec"];
-      if (gti.accept(time) && psf_cut(energy, time, ra, dec)) {
+      if (gti.accept(time) && (!apply_psf || psf_cut(energy, time, ra, dec))) {
          for (::LLEMap_t::const_iterator variable = lleDict.begin();
               variable != lleDict.end(); ++variable) {
             lle[variable->first].set(merit[variable->second.meritName()]);
