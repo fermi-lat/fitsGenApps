@@ -2,7 +2,7 @@
 #
 # $Id$
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: fitsGenApps-00-05-01
+# Version: fitsGenApps-00-06-00
 
 import os
 Import('baseEnv')
