@@ -13,6 +13,7 @@ libEnv = baseEnv.Clone()
 progEnv.Tool('fitsGenAppsLib')
 if baseEnv['PLATFORM'] == "posix":
     progEnv.Append(CPPDEFINES = 'TRAP_FPE')
+
 makeFT1Bin = progEnv.Program('makeFT1', 'src/makeFT1/makeFT1.cxx')
 makeLLEBin = progEnv.Program('makeLLE', listFiles(['src/makeLLE/*.cxx']))
 lle2drmBin = progEnv.Program('lle2drm', listFiles(['src/lle2drm/*.cxx']))
@@ -32,7 +33,7 @@ progEnv.Tool('registerTargets', package = 'fitsGenApps',
                            [makeFT2Bin, progEnv], [makeFT2aBin, progEnv],
                            [egret2FT1Bin, progEnv], [convertFT1Bin, progEnv],
                            [partitionBin, progEnv], [irfTupleBin, progEnv], 
-                           [add_source_infoBin, progEnv],
-                           [test_appBin, progEnv]],
+                           [add_source_infoBin, progEnv]],
+             testAppCxts = [[test_appBin, progEnv]],
              includes = listFiles(['fitsGenApps/*.h']), 
              pfiles = listFiles(['pfiles/*.par']), recursive = True)
