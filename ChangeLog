@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Sep 28 13:34:15 PDT 2011
+fitsGenApps/src/makeLLE
+
+Modified Files:
+	makeLLE.cxx 
+Log Message:
+switch to GltEngine from GltGemEngine in default LLE cut to match Pass 7 definition
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-06-01, operation: add
 Package: fitsGenApps
