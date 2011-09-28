@@ -196,7 +196,7 @@ void MakeLLE::run() {
 
 // Standard filter string for LLE, allowing for non-default option.
    std::string filter("(TkrNumTracks>0) && " 
-                      "(GltGemEngine==6 || GltGemEngine==7) && "
+                      "(GltEngine==6 || GltEngine==7) && "
                       "(EvtEnergyCorr>0)");
    bool mc_data = m_pars["mc_data"];
    if (mc_data) {
