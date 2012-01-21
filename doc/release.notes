@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-06-03 21-Jan-2012 jchiang remove build in SConscript for non-existent test_app
  fitsGenApps-00-06-02 28-Sep-2011 jchiang switch to GltEngine from GltGemEngine in default TCut in makeLLE as per pass 7 definition
  fitsGenApps-00-06-01 13-Sep-2011 jchiang bug-fix for test_app build on snow-leopard
  fitsGenApps-00-06-00 10-Aug-2011 jchiang add apply_psf parameter; don't convert filter string to lower case
