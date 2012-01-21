@@ -25,7 +25,6 @@ partitionBin = progEnv.Program('partition', 'src/partition/partition.cxx')
 irfTupleBin = progEnv.Program('irfTuple', listFiles(['src/irfTuple/*.cxx']))
 add_source_infoBin = progEnv.Program('add_source_info', 
                                      listFiles(['src/add_source_info/*.cxx']))
-test_appBin = progEnv.Program('test_app', listFiles(['src/test_app/*.cxx']))
 
 progEnv.Tool('registerTargets', package = 'fitsGenApps', 
              binaryCxts = [[makeFT1Bin, progEnv], [makeLLEBin, progEnv], 
@@ -34,6 +33,5 @@ progEnv.Tool('registerTargets', package = 'fitsGenApps',
                            [egret2FT1Bin, progEnv], [convertFT1Bin, progEnv],
                            [partitionBin, progEnv], [irfTupleBin, progEnv], 
                            [add_source_infoBin, progEnv]],
-             testAppCxts = [[test_appBin, progEnv]],
              includes = listFiles(['fitsGenApps/*.h']), 
              pfiles = listFiles(['pfiles/*.par']), recursive = True)
