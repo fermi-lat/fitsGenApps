@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Nov 10 19:23:17 PST 2012
+fitsGenApps/src/irfTuple
+
+Modified Files:
+	irfTuple.cxx 
+Log Message:
+use st_facilities::Environment
+    *
+------------------------------------------------------------
+User: jchiang  Sat Nov 10 19:23:17 PST 2012
 fitsGenApps/src/egret2FT1
 
 Modified Files:
