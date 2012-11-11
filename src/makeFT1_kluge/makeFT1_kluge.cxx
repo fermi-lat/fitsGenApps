@@ -25,10 +25,9 @@
 #include "astro/SkyDir.h"
 
 #include "st_facilities/Env.h"
+#include "st_facilities/Environment.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
-
-#include "facilities/commonUtilities.h"
 
 #include "st_stream/StreamFormatter.h"
 
@@ -186,7 +185,7 @@ void MakeFt1::run() {
    double tstart = m_pars["tstart"];
    double tstop = m_pars["tstop"];
 
-   std::string dataDir(facilities::commonUtilities::getDataPath("fitsGen"));
+   std::string dataDir(st_facilities::Environment::dataPath("fitsGen"));
 
    std::string filter;
    if (!st_facilities::Util::fileExists(defaultFilter)) {

@@ -20,7 +20,7 @@
 
 #include "astro/SkyDir.h"
 
-#include "st_facilities/Env.h"
+#include "st_facilities/Environment.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
@@ -55,7 +55,7 @@ int main(int iargc, char * argv[]) {
    }
    std::string irfTupleNameFile = 
       facilities::commonUtilities::joinPath(
-         facilities::commonUtilities::getDataPath("fitsGen"), "irfTupleNames");
+         st_facilities::Environment::dataPath("fitsGen"), "irfTupleNames");
    if (iargc == 5) {
       irfTupleNameFile = argv[4];
    }

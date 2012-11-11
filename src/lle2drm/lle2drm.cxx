@@ -29,6 +29,7 @@
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
+#include "st_facilities/Environment.h"
 #include "st_facilities/Util.h"
 
 #include "evtbin/LogBinner.h"
@@ -125,7 +126,7 @@ void LLE2DRM::run() {
    
 // Write the rsp file
    std::string outfile = m_pars["outfile"];
-   std::string dataPath(commonUtilities::getDataPath("rspgen"));
+   std::string dataPath(st_facilities::Environment::dataPath("rspgen"));
    std::string resp_tpl(commonUtilities::joinPath(dataPath,
                                                   "LatResponseTemplate"));
    drm.writeOutput("lle2drm", outfile, resp_tpl);
