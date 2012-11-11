@@ -19,7 +19,6 @@
 #include <string>
 
 #include "facilities/Util.h"
-#include "facilities/commonUtilities.h"
 
 #include "astro/SkyDir.h"
 
@@ -33,6 +32,7 @@
 #include "dataSubselector/Cuts.h"
 
 #include "st_facilities/Env.h"
+#include "st_facilities/Environment.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
@@ -192,7 +192,7 @@ void MakeLLE::run() {
    double tmin(t0 + dtstart);
    double tmax(t0 + dtstop);
 
-   std::string dataDir(facilities::commonUtilities::getDataPath("fitsGen"));
+   std::string dataDir(st_facilities::Environment::dataPath("fitsGen"));
 
 // Standard filter string for LLE, allowing for non-default option.
    std::string filter("(TkrNumTracks>0) && " 
