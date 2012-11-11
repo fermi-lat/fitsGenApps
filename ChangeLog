@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Nov 10 19:23:17 PST 2012
+fitsGenApps/src/egret2FT1
+
+Modified Files:
+	EgretSmdb.cxx 
+Log Message:
+use st_facilities::Environment
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-06-04, operation: add
 Package: fitsGenApps
