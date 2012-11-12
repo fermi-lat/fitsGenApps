@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Nov 12 08:41:48 PST 2012
+fitsGenApps/src/makeFT2a
+
+Modified Files:
+	makeFT2a.cxx 
+Log Message:
+set data_qual, lat_mode, lat_config, rock_angle in FT2 file
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-06-05, operation: add
 Package: fitsGenApps
