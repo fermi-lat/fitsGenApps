@@ -98,6 +98,7 @@ int main(int iargc, char * argv[]) {
       std::string line;
       std::vector<std::string> dataFields;
       std::vector<float> scPosition(3);
+      std::vector<CLHEP::Hep3Vector> sc_pos;
       while (std::getline(d2, line, '\n')) {
          facilities::Util::stringTokenize(line, "\t ", dataFields);
          ft2["start"].set(std::atof(dataFields[0].c_str()) + time_offset);
@@ -105,6 +106,8 @@ int main(int iargc, char * argv[]) {
          scPosition[0] = std::atof(dataFields[1].c_str())*1e3;
          scPosition[1] = std::atof(dataFields[2].c_str())*1e3;
          scPosition[2] = std::atof(dataFields[3].c_str())*1e3;
+         sc_pos.push_back(CLHEP::Hep3Vector(scPosition[0], scPosition[1],
+                                            scPosition[2]));
          ft2["sc_position"].set(scPosition);
          double ra_scz(std::atof(dataFields[4].c_str()));
          double dec_scz(std::atof(dataFields[5].c_str()));
@@ -130,6 +133,19 @@ int main(int iargc, char * argv[]) {
          ft2["rock_angle"].set(rock_angle);
          ft2.next();
       }
+
+// Compute ra_npole, dec_npole
+      ft2.itor() = ft2.begin();
+      double ra_npole, dec_npole;
+      for (size_t i(0); i < sc_pos.size()-1; ft2.next(), i++) {
+         astro::SkyDir pole(sc_pos[i].cross(sc_pos[i+1]));
+         ra_npole = pole.ra();
+         dec_npole = pole.dec();
+         ft2["ra_npole"].set(ra_npole);
+         ft2["dec_npole"].set(dec_npole);
+      }
+      ft2["ra_npole"].set(ra_npole);
+      ft2["dec_npole"].set(dec_npole);
 
 // Get stop times. Table::Iterator does not have random access.
 // Also fill the GEOMAG_LAT and IN_SAA columns.
