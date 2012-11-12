@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Nov 12 10:45:37 PST 2012
+fitsGenApps/src/makeFT2a
+
+Modified Files:
+	makeFT2a.cxx 
+Log Message:
+fill ra_npole and dec_npole
+    *
+------------------------------------------------------------
 User: jchiang  Mon Nov 12 08:41:48 PST 2012
 fitsGenApps/src/makeFT2a
 
