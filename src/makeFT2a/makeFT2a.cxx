@@ -20,6 +20,7 @@
 #include "facilities/Util.h"
 
 #include "astro/EarthCoordinate.h"
+#include "astro/SkyDir.h"
 
 #include "fitsGen/Ft2File.h"
 
@@ -110,14 +111,23 @@ int main(int iargc, char * argv[]) {
          double ra_scx(std::atof(dataFields[6].c_str()));
          double dec_scx(std::atof(dataFields[7].c_str()));
          ft2.setScAxes(ra_scz, dec_scz, ra_scx, dec_scx);
-         ft2["ra_zenith"].set(std::atof(dataFields[8].c_str()));
-         ft2["dec_zenith"].set(std::atof(dataFields[9].c_str()));
+         double ra_zenith(std::atof(dataFields[8].c_str()));
+         double dec_zenith(std::atof(dataFields[9].c_str()));
+         ft2["ra_zenith"].set(ra_zenith);
+         ft2["dec_zenith"].set(dec_zenith);
          double lonGeo = std::atof(dataFields[10].c_str());
          double latGeo = std::atof(dataFields[11].c_str());
          double radGeo = std::atof(dataFields[12].c_str());
          ft2["lon_geo"].set(lonGeo);
          ft2["lat_geo"].set(latGeo);
          ft2["rad_geo"].set(radGeo);
+         ft2["data_qual"].set(0);
+         ft2["lat_mode"].set(0);
+         ft2["lat_config"].set(0);
+         astro::SkyDir scz(ra_scz, dec_scz);
+         astro::SkyDir zenith(ra_zenith, dec_zenith);
+         double rock_angle = scz.difference(zenith)*180./M_PI;
+         ft2["rock_angle"].set(rock_angle);
          ft2.next();
       }
 
