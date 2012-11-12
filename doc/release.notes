@@ -6,6 +6,7 @@
     @verbatim
     EOH
 
+ fitsGenApps-00-07-00 12-Nov-2012 jchiang for makeFT2a, fill LAT_CONFIG, LAT_MODE, DATA_QUAL, ROCK_ANGLE, RA_NPOLE, DEC_NPOLE, using default values for the first three and computed values for the remaining.  See [STGEN-136@JIRA]
  fitsGenApps-00-06-05 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
  fitsGenApps-00-06-04 13-Oct-2012 jchiang correct typo in ft2.tpl; add error checking for TTree->GetEvent() and throw exception
  fitsGenApps-00-06-03 21-Jan-2012 jchiang remove build in SConscript for non-existent test_app
