@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec  3 12:48:28 PST 2012
+fitsGenApps/src/makeFT2a
+
+Modified Files:
+	makeFT2a.cxx 
+Log Message:
+calculate the sign of the rocking angle by comparing dec_scz and dec_zenith
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-07-00, operation: add
 Package: fitsGenApps
