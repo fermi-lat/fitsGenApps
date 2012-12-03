@@ -130,6 +130,9 @@ int main(int iargc, char * argv[]) {
          astro::SkyDir scz(ra_scz, dec_scz);
          astro::SkyDir zenith(ra_zenith, dec_zenith);
          double rock_angle = scz.difference(zenith)*180./M_PI;
+         if (dec_scz < dec_zenith) {
+            rock_angle *= -1.;
+         }
          ft2["rock_angle"].set(rock_angle);
          ft2.next();
       }
