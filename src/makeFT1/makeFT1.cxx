@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -135,17 +136,39 @@ namespace {
          if (std::find(validFields.begin(), validFields.end(), 
                        candidate) == validFields.end()) {
             ft1.appendField(ft1_entry->first, ft1_entry->second.ft1Type());
-//            ft1_entry->second.write_TLMIN_TLMAX(ft1);
          }
       }
    }
+   /**
+    * @class Null event classifier.  Functor that always returns an
+    * unsigned int with all bits set.
+    */
+   class NullClassifier : public EventClassifier {
+   public:
+      NullClassifier() {}
+      virtual ~NullClassifier() throw() {}
+      virtual unsigned int operator()(tip::ConstTableRecord & row) const {
+         return all_bits_set();
+      }
+      virtual unsigned int operator()(MeritFile2 & merit) const {
+         return all_bits_set();
+      }
+      virtual unsigned int 
+      operator()(const std::map<std::string, double> & row) const {
+         return all_bits_set();
+      }
+   private:
+      unsigned int all_bits_set() const {
+         return std::numeric_limits<int>::max() - 1;
+      }         
+   };
 }
 
 class MakeFt1 : public st_app::StApp {
 public:
    MakeFt1() : st_app::StApp(),
                m_pars(st_app::StApp::getParGroup("makeFT1")),
-               m_classifier(0) {
+               m_classifier(0), m_eventTyper(new NullClassifier()) {
       try {
          setVersion(s_cvs_id);
       } catch (std::exception & eObj) {
@@ -160,6 +183,7 @@ public:
    virtual ~MakeFt1() throw() {
       try {
          delete m_classifier;
+         delete m_eventTyper;
       } catch (std::exception &eObj) {
          std::cerr << eObj.what() << std::endl;
       } catch (...) {
@@ -173,9 +197,12 @@ private:
    static std::string s_cvs_id;
 
    EventClassifier * m_classifier;
+   EventClassifier * m_eventTyper;
    void setClassifier(const std::string & filter);
    unsigned int eventClass(tip::ConstTableRecord & row) const;
    unsigned int eventClass(fitsGen::MeritFile2 & merit) const;
+   unsigned int eventType(tip::ConstTableRecord & row) const;
+   unsigned int eventType(fitsGen::MeritFile2 & merit) const;
 };
 
 std::string MakeFt1::s_cvs_id("$Name$");
@@ -258,7 +285,9 @@ void MakeFt1::run() {
                ft1[variable->first].set(merit[variable->second.meritName()]);
             }
             int my_evtclass = eventClass(merit);
+            unsigned int my_evttype = eventType(merit);
             ft1["event_class"].set(my_evtclass);
+            ft1["event_type"].set(my_evttype);
             ft1["conversion_type"].set(merit.conversionType());
             ncount++;
          }
@@ -314,6 +343,11 @@ void MakeFt1::setClassifier(const std::string & filter) {
       std::string evtClassMap = m_pars["evtclsmap"];
       m_classifier = new XmlEventClassifier(xmlClassifier, meritFile, filter,
                                             evtClassMap);
+
+      std::string evtTypeMap = m_pars["evttypmap"];
+      if (evtTypeMap != "none") {
+         m_eventTyper = new ::NullClassifier();
+      }
    } else {
       std::string eventClassifier = m_pars["event_classifier"];
       m_classifier = new EventClassifier(eventClassifier);
@@ -326,4 +360,12 @@ unsigned int MakeFt1::eventClass(tip::ConstTableRecord & row) const {
 
 unsigned int MakeFt1::eventClass(fitsGen::MeritFile2 & merit) const {
    return m_classifier->operator()(merit);
+}
+
+unsigned int MakeFt1::eventType(tip::ConstTableRecord & row) const {
+   return m_eventTyper->operator()(row);
+}
+
+unsigned int MakeFt1::eventType(fitsGen::MeritFile2 & merit) const {
+   return m_eventTyper->operator()(merit);
 }

@@ -12,6 +12,7 @@ TCuts,s,a,,,,TCut to apply
 dict_file,fr,a,,,,merit-to-FT1 dictionary file
 file_version,s,h,1,,,Version of FT1 file
 evtclsmap,s,h,"FT1EventClass",,,"Event class definition block to use from xml file"
+evttypmap,s,h,none,,,"Event type definition block to use from xml file"
 proc_ver,i,h,1,,,"Processing version"
 
 chatter,i,h,2,0,4,Output verbosity
