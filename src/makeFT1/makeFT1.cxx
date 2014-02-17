@@ -158,8 +158,10 @@ namespace {
          return all_bits_set();
       }
    private:
+      /// The returns 2**31-1, the largest number for 32-bit signed
+      /// integer, which has all bits set.
       unsigned int all_bits_set() const {
-         return std::numeric_limits<int>::max() - 1;
+         return std::numeric_limits<int>::max();
       }         
    };
 }
