@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Feb 17 13:42:10 PST 2014
+ScienceTools-scons/fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+ensure all bits are set for default event type
+    *
+------------------------------------------------------------
 User: jchiang  Sun Feb 16 23:07:14 PST 2014
 ScienceTools-scons/fitsGenApps/src/makeFT1
 
