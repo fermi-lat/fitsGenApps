@@ -201,10 +201,10 @@ private:
    EventClassifier * m_classifier;
    EventClassifier * m_eventTyper;
    void setClassifier(const std::string & filter);
-   unsigned int eventClass(tip::ConstTableRecord & row) const;
-   unsigned int eventClass(fitsGen::MeritFile2 & merit) const;
-   unsigned int eventType(tip::ConstTableRecord & row) const;
-   unsigned int eventType(fitsGen::MeritFile2 & merit) const;
+   unsigned long eventClass(tip::ConstTableRecord & row) const;
+   unsigned long eventClass(fitsGen::MeritFile2 & merit) const;
+   unsigned long eventType(tip::ConstTableRecord & row) const;
+   unsigned long eventType(fitsGen::MeritFile2 & merit) const;
 };
 
 std::string MakeFt1::s_cvs_id("$Name$");
@@ -286,8 +286,8 @@ void MakeFt1::run() {
                  variable != ft1Dict.end(); ++variable) {
                ft1[variable->first].set(merit[variable->second.meritName()]);
             }
-            int my_evtclass = eventClass(merit);
-            unsigned int my_evttype = eventType(merit);
+            tip::BitStruct my_evtclass(eventClass(merit));
+            tip::BitStruct my_evttype(eventType(merit));
             ft1["event_class"].set(my_evtclass);
             ft1["event_type"].set(my_evttype);
             ft1["conversion_type"].set(merit.conversionType());
@@ -356,18 +356,18 @@ void MakeFt1::setClassifier(const std::string & filter) {
    }
 }
 
-unsigned int MakeFt1::eventClass(tip::ConstTableRecord & row) const {
+unsigned long MakeFt1::eventClass(tip::ConstTableRecord & row) const {
    return m_classifier->operator()(row);
 }
 
-unsigned int MakeFt1::eventClass(fitsGen::MeritFile2 & merit) const {
+unsigned long MakeFt1::eventClass(fitsGen::MeritFile2 & merit) const {
    return m_classifier->operator()(merit);
 }
 
-unsigned int MakeFt1::eventType(tip::ConstTableRecord & row) const {
+unsigned long MakeFt1::eventType(tip::ConstTableRecord & row) const {
    return m_eventTyper->operator()(row);
 }
 
-unsigned int MakeFt1::eventType(fitsGen::MeritFile2 & merit) const {
+unsigned long MakeFt1::eventType(fitsGen::MeritFile2 & merit) const {
    return m_eventTyper->operator()(merit);
 }
