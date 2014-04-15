@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 15 09:38:30 PDT 2014
+fitsGenApps
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 15 09:37:53 PDT 2014
 ScienceTools-scons/fitsGenApps/src/makeFT1
 
