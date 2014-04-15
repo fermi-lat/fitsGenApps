@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 15 09:37:53 PDT 2014
+ScienceTools-scons/fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+write 32X bit-array columns for EVENT_CLASS and EVENT_TYPE to the output FT1 files
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-33-00, operation: add
 Package: fitsGenApps
