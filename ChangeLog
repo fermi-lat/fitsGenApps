@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 16 21:47:58 PDT 2014
+ScienceTools-scons/fitsGenApps/src/makeFT1
+
+Modified Files:
+	makeFT1.cxx 
+Log Message:
+set eventTyper based on evtTypeMap
+    *
+------------------------------------------------------------
 TAG
 Tag name: fitsGenApps-00-09-00, operation: add
 Package: fitsGenApps
