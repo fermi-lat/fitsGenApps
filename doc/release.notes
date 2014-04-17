@@ -7,6 +7,7 @@
     EOH
 
  fitsGenApps-00-09-01 16-Apr-2014 jchiang set eventTyper based on evttypmap parameter value
+ fitsGenApps-00-09-01 16-Apr-2014 jchiang set eventTyper based on evttypmap parameter value
  fitsGenApps-00-09-00 15-Apr-2014 jchiang bit-array support for EVENT_CLASS and EVENT_TYPE columns
  fitsGenApps-00-08-00 17-Feb-2014 jchiang add EVENT_TYPE column to FT1 output
  fitsGenApps-00-07-01 03-Dec-2012 jchiang calculate sign of rocking angle in makeFT2a
