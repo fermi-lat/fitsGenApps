@@ -348,6 +348,9 @@ void MakeFt1::setClassifier(const std::string & filter) {
 
       std::string evtTypeMap = m_pars["evttypmap"];
       if (evtTypeMap != "none") {
+         m_eventTyper = new XmlEventClassifier(xmlClassifier, meritFile, filter,
+                                               evtTypeMap);
+      } else {
          m_eventTyper = new ::NullClassifier();
       }
    } else {
